@@ -13,14 +13,21 @@ const SearchPage = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('hk_attraction.json'); // Ensure the path is correct
+            const response = await fetch('hk_attractions.json'); // Ensure the path is correct
             const data = await response.json();
             console.log('Fetched data:', data); // Log fetched data
             setLocations(data);
-            setFilteredLocations(data);
+            // Show random sites when data is fetched
+            setFilteredLocations(getRandomSites(data));
         } catch (error) {
             console.error('Error fetching locations:', error);
         }
+    };
+
+    const getRandomSites = (data) => {
+        // Select up to 5 random sites
+        const shuffled = data.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 5);
     };
 
     const filterLocations = () => {
