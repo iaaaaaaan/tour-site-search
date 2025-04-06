@@ -30,10 +30,8 @@ const SearchPage = () => {
             filtered = filtered.filter(location =>
                 location.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
-            console.log('Filtered after search:', filtered); // Log filtered results
         }
 
-        // Price filter logic (if applicable)
         if (priceFilter) {
             filtered = filtered.filter(location => {
                 if (priceFilter === 'low') return location.price < 50; // Example threshold
@@ -42,7 +40,6 @@ const SearchPage = () => {
             });
         }
 
-        // Location type filter
         if (locationFilter) {
             filtered = filtered.filter(location => location.type.includes(locationFilter));
         }
@@ -52,7 +49,6 @@ const SearchPage = () => {
 
     useEffect(() => {
         filterLocations();
-        console.log('Filtered locations:', filteredLocations); // Log filtered locations
     }, [searchTerm, priceFilter, locationFilter, locations]);
 
     return (
@@ -70,15 +66,26 @@ const SearchPage = () => {
                         placeholder="Search locations..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        aria-label="Search locations" // Accessibility label
                     />
                     <label htmlFor="priceFilter">Filter by Price:</label>
-                    <select id="priceFilter" onChange={(e) => setPriceFilter(e.target.value)} value={priceFilter}>
+                    <select 
+                        id="priceFilter" 
+                        onChange={(e) => setPriceFilter(e.target.value)} 
+                        value={priceFilter}
+                        aria-label="Select price filter" // Accessibility label
+                    >
                         <option value="">Select Price Filter</option>
                         <option value="low">Low to High</option>
                         <option value="high">High to Low</option>
                     </select>
                     <label htmlFor="locationFilter">Filter by Type:</label>
-                    <select id="locationFilter" onChange={(e) => setLocationFilter(e.target.value)} value={locationFilter}>
+                    <select 
+                        id="locationFilter" 
+                        onChange={(e) => setLocationFilter(e.target.value)} 
+                        value={locationFilter}
+                        aria-label="Select location type" // Accessibility label
+                    >
                         <option value="">Select Type</option>
                         <option value="tourist_attraction">Tourist Attraction</option>
                         <option value="park">Park</option>
