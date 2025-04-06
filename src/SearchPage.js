@@ -12,16 +12,16 @@ const SearchPage = () => {
     }, []);
 
     const fetchLocations = async () => {
-    try {
-        const response = await fetch('hk_attractions.json'); // Ensure the path is correct
-        const data = await response.json();
-        console.log('Fetched data:', data); // Log fetched data
-        setLocations(data);
-        setFilteredLocations(data);
-    } catch (error) {
-        console.error('Error fetching locations:', error);
-    }
-};
+        try {
+            const response = await fetch('hk_attractions.json'); // Ensure the path is correct
+            const data = await response.json();
+            console.log('Fetched data:', data); // Log fetched data
+            setLocations(data);
+            setFilteredLocations(data);
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+        }
+    };
 
     const filterLocations = () => {
         let filtered = locations;
@@ -52,6 +52,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         filterLocations();
+        console.log('Filtered locations:', filteredLocations); // Log filtered locations
     }, [searchTerm, priceFilter, locationFilter, locations]);
 
     return (
@@ -84,15 +85,19 @@ const SearchPage = () => {
                     </select>
                 </div>
                 <div>
-                    {filteredLocations.map(location => (
-                        <div key={location.site_id} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
-                            <h3>{location.name}</h3>
-                            <p>{location.description || 'No description available.'}</p>
-                            <p>Price: ${location.price}</p>
-                            <img src={location.picture[0] || 'default_image.jpg'} alt={location.name} style={{ width: '100%' }} />
-                            <a href="#">More Details</a>
-                        </div>
-                    ))}
+                    {filteredLocations.length === 0 ? (
+                        <p>No results found.</p> // Feedback for no results
+                    ) : (
+                        filteredLocations.map(location => (
+                            <div key={location.site_id} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
+                                <h3>{location.name}</h3>
+                                <p>{location.description || 'No description available.'}</p>
+                                <p>Price: ${location.price}</p>
+                                <img src={location.picture[0] || 'default_image.jpg'} alt={location.name} style={{ width: '100%' }} />
+                                <a href="#">More Details</a>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
             <div style={{ position: 'fixed', bottom: '20px', left: '20px', backgroundColor: '#007bff', color: 'white', padding: '10px', borderRadius: '5px', cursor: 'pointer' }}>
