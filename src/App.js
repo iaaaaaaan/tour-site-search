@@ -1,16 +1,7 @@
-const apiUrl = 'URL_TO_YOUR_BACKEND_API'; // Replace with your backend API URL
+const apiUrl = 'hk_attraction.json'; // Path to your JSON file
 let sitesData = [];
 
-document.getElementById('searchButton').addEventListener('click', function() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const filteredResults = sitesData.filter(site => 
-        site.name.toLowerCase().includes(input) || 
-        site.address.toLowerCase().includes(input)
-    );
-    displayResults(filteredResults);
-});
-
-// Function to fetch site data from the backend
+// Function to fetch site data from the JSON file
 async function fetchSites() {
     try {
         const response = await fetch(apiUrl);
@@ -20,6 +11,16 @@ async function fetchSites() {
         console.error('Fetch error:', error);
     }
 }
+
+// Event listener for the search button
+document.getElementById('searchButton').addEventListener('click', function() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const filteredResults = sitesData.filter(site => 
+        site.name.toLowerCase().includes(input) || 
+        site.address.toLowerCase().includes(input)
+    );
+    displayResults(filteredResults);
+});
 
 // Function to display search results
 function displayResults(results) {
