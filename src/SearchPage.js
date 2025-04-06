@@ -13,7 +13,7 @@ const SearchPage = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('hk_attractions.json'); // Ensure the path is correct
+            const response = await fetch('hk_attraction.json'); // Ensure the path is correct
             const data = await response.json();
             console.log('Fetched data:', data); // Log fetched data
             setLocations(data);
@@ -30,12 +30,12 @@ const SearchPage = () => {
             filtered = filtered.filter(location =>
                 location.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
+            console.log('Filtered after search:', filtered); // Log filtered results
         }
 
         // Price filter logic (if applicable)
         if (priceFilter) {
             filtered = filtered.filter(location => {
-                // Adjust this logic based on how you want to define price ranges
                 if (priceFilter === 'low') return location.price < 50; // Example threshold
                 if (priceFilter === 'high') return location.price >= 50;
                 return true;
@@ -71,13 +71,15 @@ const SearchPage = () => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <select onChange={(e) => setPriceFilter(e.target.value)} value={priceFilter}>
-                        <option value="">Filter by Price</option>
+                    <label htmlFor="priceFilter">Filter by Price:</label>
+                    <select id="priceFilter" onChange={(e) => setPriceFilter(e.target.value)} value={priceFilter}>
+                        <option value="">Select Price Filter</option>
                         <option value="low">Low to High</option>
                         <option value="high">High to Low</option>
                     </select>
-                    <select onChange={(e) => setLocationFilter(e.target.value)} value={locationFilter}>
-                        <option value="">Filter by Type</option>
+                    <label htmlFor="locationFilter">Filter by Type:</label>
+                    <select id="locationFilter" onChange={(e) => setLocationFilter(e.target.value)} value={locationFilter}>
+                        <option value="">Select Type</option>
                         <option value="tourist_attraction">Tourist Attraction</option>
                         <option value="park">Park</option>
                         <option value="place_of_worship">Place of Worship</option>
