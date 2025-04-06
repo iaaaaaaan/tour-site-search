@@ -12,15 +12,16 @@ const SearchPage = () => {
     }, []);
 
     const fetchLocations = async () => {
-        try {
-            const response = await fetch('hk_attractions.json'); // Fetch from the local JSON file
-            const data = await response.json();
-            setLocations(data);
-            setFilteredLocations(data);
-        } catch (error) {
-            console.error('Error fetching locations:', error);
-        }
-    };
+    try {
+        const response = await fetch('hk_attractions.json'); // Ensure the path is correct
+        const data = await response.json();
+        console.log('Fetched data:', data); // Log fetched data
+        setLocations(data);
+        setFilteredLocations(data);
+    } catch (error) {
+        console.error('Error fetching locations:', error);
+    }
+};
 
     const filterLocations = () => {
         let filtered = locations;
