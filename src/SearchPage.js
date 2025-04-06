@@ -13,7 +13,7 @@ const SearchPage = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/locations'); // Update with your backend URL
+            const response = await fetch('hk_attractions.json'); // Fetch from the local JSON file
             const data = await response.json();
             setLocations(data);
             setFilteredLocations(data);
@@ -31,14 +31,17 @@ const SearchPage = () => {
             );
         }
 
+        // Price filter logic (if applicable)
         if (priceFilter) {
             filtered = filtered.filter(location => {
-                if (priceFilter === 'low') return location.price < 50;
+                // Adjust this logic based on how you want to define price ranges
+                if (priceFilter === 'low') return location.price < 50; // Example threshold
                 if (priceFilter === 'high') return location.price >= 50;
                 return true;
             });
         }
 
+        // Location type filter
         if (locationFilter) {
             filtered = filtered.filter(location => location.type.includes(locationFilter));
         }
@@ -72,19 +75,20 @@ const SearchPage = () => {
                         <option value="high">High to Low</option>
                     </select>
                     <select onChange={(e) => setLocationFilter(e.target.value)} value={locationFilter}>
-                        <option value="">Filter by Location</option>
-                        <option value="city1">City 1</option>
-                        <option value="city2">City 2</option>
-                        {/* Add more locations as needed */}
+                        <option value="">Filter by Type</option>
+                        <option value="tourist_attraction">Tourist Attraction</option>
+                        <option value="park">Park</option>
+                        <option value="place_of_worship">Place of Worship</option>
+                        {/* Add more location types as needed */}
                     </select>
                 </div>
                 <div>
                     {filteredLocations.map(location => (
-                        <div key={location.pictureId} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
+                        <div key={location.site_id} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
                             <h3>{location.name}</h3>
-                            <p>{location.description}</p>
+                            <p>{location.description || 'No description available.'}</p>
                             <p>Price: ${location.price}</p>
-                            <img src={`https://your-cloudinary-url/${location.pictureId}`} alt={location.name} style={{ width: '100%' }} />
+                            <img src={location.picture[0] || 'default_image.jpg'} alt={location.name} style={{ width: '100%' }} />
                             <a href="#">More Details</a>
                         </div>
                     ))}
