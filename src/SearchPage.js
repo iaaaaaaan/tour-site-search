@@ -13,7 +13,7 @@ const SearchPage = () => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('hk_attractions.json'); // Ensure the path is correct
+            const response = await fetch('hk_attraction.json'); // Ensure the path is correct
             const data = await response.json();
             console.log('Fetched data:', data); // Log fetched data
             setLocations(data);
@@ -25,6 +25,10 @@ const SearchPage = () => {
     };
 
     const getRandomSites = (data) => {
+        if (!data || data.length === 0) {
+            console.error('No data available for random selection');
+            return [];
+        }
         // Select up to 5 random sites
         const shuffled = data.sort(() => 0.5 - Math.random());
         return shuffled.slice(0, 5);
@@ -109,11 +113,7 @@ const SearchPage = () => {
                                 <h3>{location.name}</h3>
                                 <p>{location.description || 'No description available.'}</p>
                                 <p>Price: ${location.price}</p>
-                                <img 
-                                    src={location.picture[0] || 'default_image.jpg'}  // Use default image if specific image is not available
-                                    alt={location.name} 
-                                    style={{ width: '100%' }} 
-                                />
+                                {/* No image displayed */}
                                 <a href="#">More Details</a>
                             </div>
                         ))
@@ -125,6 +125,9 @@ const SearchPage = () => {
             </div>
         </div>
     );
+};
+
+export default SearchPage;
 };
 
 export default SearchPage;
