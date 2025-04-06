@@ -102,7 +102,11 @@ const SearchPage = () => {
                                 <h3>{location.name}</h3>
                                 <p>{location.description || 'No description available.'}</p>
                                 <p>Price: ${location.price}</p>
-                                <img src={location.picture[0] || 'default_image.jpg'} alt={location.name} style={{ width: '100%' }} />
+                                <img 
+                                    src={location.picture[0] || 'default_image.jpg'}  // Use default image if specific image is not available
+                                    alt={location.name} 
+                                    style={{ width: '100%' }} 
+                                />
                                 <a href="#">More Details</a>
                             </div>
                         ))
