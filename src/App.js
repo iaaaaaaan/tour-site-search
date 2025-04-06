@@ -1,4 +1,4 @@
-const apiUrl = 'hk_attraction.json'; // Path to your JSON file
+const apiUrl = 'hk_attractions.json';
 let sitesData = [];
 
 // Function to fetch site data from the JSON file
@@ -28,19 +28,21 @@ function displayResults(results) {
     resultsContainer.innerHTML = ''; // Clear previous results
 
     if (results.length === 0) {
-        resultsContainer.innerHTML = '<p>No results found.</p>';
+        resultsContainer.innerHTML = '<p>No results found.</p>'; // Message for no results
         return;
     }
 
     results.forEach(site => {
-        const resultDiv = document.createElement('div');
-        resultDiv.className = 'result-item';
+        const resultDiv = document.createElement('div'); // Create a new div for each result
+        resultDiv.className = 'result-item'; // Assign a class for styling
         resultDiv.innerHTML = `
-            <h2>${site.name}</h2>
-            <p>${site.address}</p>
-            <img src="${site.picture[0] || 'default_image.jpg'}" alt="${site.name}" />
+            <h2>${site.name}</h2> <!-- Site name -->
+            <p>${site.address}</p> <!-- Site address -->
+            ${site.description ? `<p>${site.description}</p>` : ''} <!-- Site description if available -->
+            <p><strong>Opening Hours:</strong> ${site.opening_hour ? site.opening_hour.join(', ') : 'N/A'}</p>
+            <img src="${site.picture[0] || 'default_image.jpg'}" alt="${site.name}" /> <!-- Site image -->
         `;
-        resultsContainer.appendChild(resultDiv);
+        resultsContainer.appendChild(resultDiv); // Append the result div to the results container
     });
 }
 
